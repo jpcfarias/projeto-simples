@@ -23,5 +23,10 @@
     "nome": "raphael",
     "peso": 19.0,
     "idade": 20
+  },
+  {
+    "nome": "Caue",
+    "peso": 61.0,
+    "idade": 20
   }
 ]

@@ -78,7 +78,7 @@ public class TelaCadastro extends JDialog {
                     Cadastro cadastro = new Cadastro(nome, peso, idade);
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     
-                    String filePath = "E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json";
+                    String filePath = "cadastros.json";
                     Path path = Paths.get(filePath);
  
                     boolean exists = Files.exists(path);
@@ -90,9 +90,8 @@ public class TelaCadastro extends JDialog {
                     }
                     else if (exists) {
                         System.out.println("Arquivo existe");
-                        //Da erro quando cria um objeto do nada, o json ja precisa esta em array
                         try {
-                            FileReader reader = new FileReader("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json");
+                            FileReader reader = new FileReader("cadastros.json");
                             JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
                             java.util.List<Cadastro> listacadastro = new ArrayList<Cadastro>();
                             for (JsonElement jsonElement : jsonArray){
@@ -101,18 +100,20 @@ public class TelaCadastro extends JDialog {
                             }
                             listacadastro.add(new Cadastro(nome, peso, idade));
                             String updatedJsonString = gson.toJson(listacadastro);
-                            Files.write(Paths.get("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json"), updatedJsonString.getBytes());
+                            Files.write(Paths.get("cadastros.json"), updatedJsonString.getBytes());
                             System.out.println(listacadastro);
                         } catch (Exception e) {
-                            // TODO: handle exception
+                            e.printStackTrace();
                         }
                         
                     }
                     else if (notExists) {
                         System.out.println("Arquivo nao existe");
                         try {
-                            String jsonUser = gson.toJson(cadastro);
-                            FileWriter fileWriter = new FileWriter("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json");
+                            java.util.List<Cadastro> cadastrolista = new ArrayList<Cadastro>();
+                            cadastrolista.add(cadastro);
+                            String jsonUser = gson.toJson(cadastrolista);
+                            FileWriter fileWriter = new FileWriter("cadastros.json");
                             fileWriter.write(jsonUser);
                             fileWriter.flush();
                             fileWriter.close();

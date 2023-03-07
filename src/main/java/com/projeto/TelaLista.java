@@ -35,14 +35,7 @@ public class TelaLista extends JDialog {
         jPanel.add(labeltitulo, gridBagConstains);
 
         try {
-            /* FileReader reader = new FileReader("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json");
-            Cadastro cadastro =new Gson().fromJson(reader, Cadastro.class);
-            JLabel labelcadastro = new JLabel("<html>" + cadastro.getNome() + "<br>" + cadastro.getPeso() + "<br>" + cadastro.getIdade() + "</html>");
-            labelcadastro.setPreferredSize(new Dimension(77,50));
-            gridBagConstains.gridy ++;
-            jPanel.add(labelcadastro, gridBagConstains);
-             */
-            FileReader reader = new FileReader("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json");
+            FileReader reader = new FileReader("cadastros.json");
             JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
             java.util.List<Cadastro> listacadastro = new ArrayList<Cadastro>();
             for (JsonElement jsonElement : jsonArray){
