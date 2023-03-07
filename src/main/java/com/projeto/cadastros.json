@@ -1,5 +1,27 @@
-{
-  "nome": "asjdioas",
-  "peso": 1231.0,
-  "idade": 123
-}
+[
+  {
+    "nome": "Joao",
+    "peso": 62.0,
+    "idade": 19
+  },
+  {
+    "nome": "Luis",
+    "peso": 60.0,
+    "idade": 18
+  },
+  {
+    "nome": "mateus",
+    "peso": 59.0,
+    "idade": 19
+  },
+  {
+    "nome": "leo",
+    "peso": 39.0,
+    "idade": 29
+  },
+  {
+    "nome": "raphael",
+    "peso": 19.0,
+    "idade": 20
+  }
+]

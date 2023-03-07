@@ -16,6 +16,7 @@ public class TelaPrincipal extends JDialog{
     JButton Lista = new JButton("Lista");
 
     public TelaPrincipal() {
+        setTitle("Tela Princial");
         setSize(480, 480);
         setLocationRelativeTo(null);
 

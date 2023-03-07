@@ -4,12 +4,20 @@ import javax.swing.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.awt.*;
-
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import java.util.*;
 public class TelaCadastro extends JDialog {
     private JPanel jPanel = new JPanel(new GridBagLayout());
     //declarando as label's
@@ -26,6 +34,7 @@ public class TelaCadastro extends JDialog {
     
     public TelaCadastro(){
         //Setando configuraçao da janela
+        setTitle("TelaCadastro");
         setSize(480, 480);
         setLocationRelativeTo(null);
         
@@ -68,14 +77,51 @@ public class TelaCadastro extends JDialog {
                     int idade = Integer.parseInt(textoidade.getText());
                     Cadastro cadastro = new Cadastro(nome, peso, idade);
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    String jsonUser = gson.toJson(cadastro);
-                    try {
-                        FileWriter fileWriter = new FileWriter("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json");
-                        fileWriter.write(jsonUser);
-                        fileWriter.flush();
-                        fileWriter.close();
-                    } catch (IOException e) {
-                        JOptionPane.showMessageDialog(this, "Ocorreu um erro ao gravar o arquivo");
+                    
+                    String filePath = "E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json";
+                    Path path = Paths.get(filePath);
+ 
+                    boolean exists = Files.exists(path);
+                    boolean notExists = Files.notExists(path);
+                    boolean isDir = Files.isDirectory(path);
+            
+                    if (isDir) {
+                        System.out.println("File is a Directory");
+                    }
+                    else if (exists) {
+                        System.out.println("Arquivo existe");
+                        //Da erro quando cria um objeto do nada, o json ja precisa esta em array
+                        try {
+                            FileReader reader = new FileReader("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json");
+                            JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
+                            java.util.List<Cadastro> listacadastro = new ArrayList<Cadastro>();
+                            for (JsonElement jsonElement : jsonArray){
+                                Cadastro cadastro1 = new Gson().fromJson(jsonElement, Cadastro.class);
+                                listacadastro.add(cadastro1);
+                            }
+                            listacadastro.add(new Cadastro(nome, peso, idade));
+                            String updatedJsonString = gson.toJson(listacadastro);
+                            Files.write(Paths.get("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json"), updatedJsonString.getBytes());
+                            System.out.println(listacadastro);
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                        }
+                        
+                    }
+                    else if (notExists) {
+                        System.out.println("Arquivo nao existe");
+                        try {
+                            String jsonUser = gson.toJson(cadastro);
+                            FileWriter fileWriter = new FileWriter("E:\\Programação\\Mavenprojeto\\projeto-simples\\src\\main\\java\\com\\projeto\\cadastros.json");
+                            fileWriter.write(jsonUser);
+                            fileWriter.flush();
+                            fileWriter.close();
+                        } catch (IOException e) {
+                            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao gravar o arquivo");
+                        }
+                    }
+                    else {
+                        System.out.println("Program doesn't have access to the file!!");
                     }
                     
                     JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso");
